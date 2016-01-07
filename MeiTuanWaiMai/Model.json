@@ -1,0 +1,132 @@
+{\rtf1\ansi\ansicpg936\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \{\
+    Apart = "0.05";\
+    BaseShippingCost = 0;\
+    DetailAddress = "\\U5b9c\\U5c71\\U8def1718\\U53f7";\
+    EndTime = "20:59";\
+    Grade = 4;\
+    Id = 94;\
+    LogoPath = "http://139.196.168.180:88//advertisement/20151119/c007161f-df01-4e11-8bed-4e687e2d47ed.png";\
+    Lon = "121.3961";\
+    Name = "\\U5b9c\\U5c71\\U8def\\U5e97";\
+    OrderFullAmount = 0;\
+    ProductCategoryId = 0;\
+    ProductId = 0;\
+    ProductName = "";\
+    ProductPrice = 0;\
+    StarTime = "07:00";\
+    lat = "31.17458";\
+\},\
+\{\
+    Apart = "12.59";\
+    BaseShippingCost = 0;\
+    DetailAddress = "\\U6c38\\U6cf0\\U8def630\\U5f0462\\U53f7101\\U5ba4";\
+    EndTime = "18:59";\
+    Grade = 5;\
+    Id = 92;\
+    LogoPath = "http://139.196.168.180:88//advertisement/20151119/5e2b0966-da09-42eb-b77b-e4ef31b1d817.png";\
+    Lon = "121.52383";\
+    Name = "\\U6c38\\U6cf0\\U82b1\\U82d1\\U8d85\\U5e02";\
+    OrderFullAmount = 0;\
+    ProductCategoryId = 0;\
+    ProductId = 0;\
+    ProductName = "";\
+    ProductPrice = 0;\
+    StarTime = "07:00";\
+    lat = "31.14529";\
+\},\
+\{\
+    Apart = "14.40";\
+    BaseShippingCost = 0;\
+    DetailAddress = "\\U6c38\\U6cf0\\U8def1821\\U53f7";\
+    EndTime = "22:59";\
+    Grade = 0;\
+    Id = 93;\
+    LogoPath = "http://139.196.168.180:88//advertisement/20151119/9ad5e3db-72d0-4b0e-a196-782346964a99.png";\
+    Lon = "121.54518";\
+    Name = "\\U5149\\U660e\\U4fbf\\U5229\\U5e97";\
+    OrderFullAmount = 0;\
+    ProductCategoryId = 0;\
+    ProductId = 0;\
+    ProductName = "";\
+    ProductPrice = 0;\
+    StarTime = "10:00";\
+    lat = "31.15219";\
+\},\
+\{\
+    Apart = "16.90";\
+    BaseShippingCost = 0;\
+    DetailAddress = "\\U79c0\\U6cbf\\U8def619\\U53f7";\
+    EndTime = "22:59";\
+    Grade = 0;\
+    Id = 90;\
+    LogoPath = "http://139.196.168.180:88//advertisement/20151119/e923f56f-4bad-4af1-8f1b-618e9545ff01.png";\
+    Lon = "121.56932";\
+    Name = "\\U798f\\U4e07\\U5bb6\\U4fbf\\U5229\\U5e97";\
+    OrderFullAmount = 0;\
+    ProductCategoryId = 0;\
+    ProductId = 0;\
+    ProductName = "";\
+    ProductPrice = 0;\
+    StarTime = "10:00";\
+    lat = "31.14105";\
+\},\
+\{\
+    Apart = "17.34";\
+    BaseShippingCost = 0;\
+    DetailAddress = "\\U5eb7\\U6865\\U8def1118\\U53f7\\Uff08\\U5fa1\\U5c71\\U8def\\U53e3\\Uff09";\
+    EndTime = "20:59";\
+    Grade = 0;\
+    Id = 88;\
+    LogoPath = "http://139.196.168.180:88//advertisement/20151119/e1eb1ec2-5793-4881-a4c2-c53f730b5c0c.png";\
+    Lon = "121.57698";\
+    Name = "\\U7b2c\\U4e03\\U8d2d\\U7269\\U8d85\\U5e02";\
+    OrderFullAmount = 0;\
+    ProductCategoryId = 0;\
+    ProductId = 0;\
+    ProductName = "";\
+    ProductPrice = 0;\
+    StarTime = "08:00";\
+    lat = "31.15551";\
+\},\
+\{\
+    Apart = "18.54";\
+    BaseShippingCost = 0;\
+    DetailAddress = "\\U5eb7\\U6865\\U8def1605\\U53f7";\
+    EndTime = "21:59";\
+    Grade = 0;\
+    Id = 89;\
+    LogoPath = "http://139.196.168.180:88//advertisement/20151119/333e87a8-4a82-4fe1-91db-41c1c7f7fb52.png";\
+    Lon = "121.58986";\
+    Name = "\\U65f6\\U4ee3\\U534e\\U8054";\
+    OrderFullAmount = 0;\
+    ProductCategoryId = 0;\
+    ProductId = 0;\
+    ProductName = "";\
+    ProductPrice = 0;\
+    StarTime = "09:00";\
+    lat = "31.15678";\
+\},\
+\{\
+    Apart = "19.33";\
+    BaseShippingCost = 0;\
+    DetailAddress = "\\U79c0\\U6d66\\U8def1586\\U53f7";\
+    EndTime = "18:59";\
+    Grade = 0;\
+    Id = 91;\
+    LogoPath = "http://139.196.168.180:88//advertisement/20151119/14074930-6f54-483f-be99-eea64be8428d.png";\
+    Lon = "121.59394";\
+    Name = "\\U60e0\\U5bb6\\U4fbf\\U5229";\
+    OrderFullAmount = 0;\
+    ProductCategoryId = 0;\
+    ProductId = 0;\
+    ProductName = "";\
+    ProductPrice = 0;\
+    StarTime = "08:00";\
+    lat = "31.13538";\
+\}}
