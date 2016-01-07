@@ -9,12 +9,7 @@
 
 #import "MainViewController.h"
 #import "MainTableViewCell.h"
-#import "OrderModel.h"
-#import "ShoppingCartView.h"
-#import "ThrowLineTool.h"
-#import "GoodslistCell.h"
 @interface MainViewController ()<UITableViewDataSource,UITableViewDelegate,ThrowLineToolDelegate>
-@property (nonatomic,strong) ShoppingCartView *shoppcartview;
 
 @end
 
@@ -41,7 +36,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(NSMutableArray *)ordersArray
@@ -51,7 +45,7 @@
     }
     return _ordersArray;
 }
-
+#pragma  mark - 初始化数据
 -(void)CustomModel{
     
     NSDictionary *dic1 = @{@"id": @9323283,
@@ -135,12 +129,11 @@
     self.maintable.separatorStyle = UITableViewCellSelectionStyleNone;
     self.maintable.backgroundColor = [UIColor whiteColor];
     [self.view addSubview: self.maintable ];
-    //加载Cell
     [self.maintable registerNib:[UINib nibWithNibName:@"MainTableViewCell" bundle:nil] forCellReuseIdentifier:@"maincell"];
+    
     
     self.shoppcartview  = [[ShoppingCartView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 50, CGRectGetWidth(self.view.bounds), 50) inView:self.view];
     [self.view addSubview:self.shoppcartview];
-    
     self.shoppcartview.OrderList.tableView.delegate = self;
     self.shoppcartview.OrderList.tableView.dataSource = self;
     [self.shoppcartview.OrderList.tableView registerNib:[UINib nibWithNibName:@"GoodslistCell" bundle:nil] forCellReuseIdentifier:@"GoodslistCell"];
@@ -159,8 +152,7 @@
     if ([tableView isEqual:self.maintable]) {
         count = [self.dataArray count];
     }
-    else if ([tableView isEqual:self.shoppcartview.OrderList.tableView])
-    {
+    else {
         count = [self.ordersArray count];
     }
     return count;
@@ -182,16 +174,19 @@
         MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"maincell" forIndexPath:indexPath];
         OrderModel *model = [[OrderModel alloc]initWithDictionary:[self.dataArray objectAtIndex:indexPath.row]];
         [cell setmaintablecell:model];
+        
         __weak __typeof(&*cell)weakCell =cell;
         cell.plusBlock = ^(NSInteger nCount,BOOL animated)
         {
             NSMutableDictionary * dic = self.dataArray[indexPath.row];
             [dic setObject:[NSNumber numberWithInteger:nCount] forKey:@"orderCount"];
-            [self.view addSubview:self.redView];
+            
+            //通过坐标转换得到抛物线的起点和终点
             CGRect parentRectA = [weakCell convertRect:weakCell.addBtn.frame toView:self.view];
             CGRect parentRectB = [self.shoppcartview convertRect:self.shoppcartview.shoppingCartBtn.frame toView:self.view];
             if (animated) {
-            [[ThrowLineTool sharedTool] throwObject:self.redView from:parentRectA.origin to:parentRectB.origin height:-150 duration:0.6];
+            [self.view addSubview:self.redView];
+            [[ThrowLineTool sharedTool] throwObject:self.redView from:parentRectA.origin to:parentRectB.origin];
                 ++self.totalOrders ;
                 [self storeOrders:dic isAdded:YES];
             }
@@ -292,7 +287,6 @@
         [self.shoppcartview updateFrame:self.shoppcartview.OrderList];
     
     }else{
-
         for (int i=0; i<self.ordersArray.count;i++) {
             NSMutableDictionary *dic = self.ordersArray[i];
             if (dic[@"id"] == dict[@"id"]){
@@ -304,7 +298,6 @@
                     [dic setObject:[NSString stringWithFormat:@"%ld",count] forKey:@"orderCount"];
                 }
             }
-           
         }
         self.shoppcartview.OrderList.objects = self.ordersArray;
         [self.shoppcartview.OrderList.tableView reloadData];

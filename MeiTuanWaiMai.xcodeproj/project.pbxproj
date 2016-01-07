@@ -18,7 +18,6 @@
 		84213C461C33E46F00155AEE /* MainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84213C441C33E46F00155AEE /* MainTableViewCell.xib */; };
 		84B539761C3BB00300B59D64 /* OrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B539751C3BB00300B59D64 /* OrderModel.m */; };
 		84B539791C3BCA6F00B59D64 /* ShoppingCartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B539781C3BCA6F00B59D64 /* ShoppingCartView.m */; };
-		84B5397B1C3BCA8200B59D64 /* ShoppingCartView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84B5397A1C3BCA8200B59D64 /* ShoppingCartView.xib */; };
 		84B5397E1C3C05CA00B59D64 /* ThrowLineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B5397D1C3C05CA00B59D64 /* ThrowLineTool.m */; };
 		84B539811C3C13DC00B59D64 /* BadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B539801C3C13DC00B59D64 /* BadgeView.m */; };
 		84B539841C3C166F00B59D64 /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B539831C3C166F00B59D64 /* OverlayView.m */; };
@@ -48,7 +47,6 @@
 		84B539751C3BB00300B59D64 /* OrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderModel.m; sourceTree = "<group>"; };
 		84B539771C3BCA6F00B59D64 /* ShoppingCartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartView.h; sourceTree = "<group>"; };
 		84B539781C3BCA6F00B59D64 /* ShoppingCartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingCartView.m; sourceTree = "<group>"; };
-		84B5397A1C3BCA8200B59D64 /* ShoppingCartView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShoppingCartView.xib; sourceTree = "<group>"; };
 		84B5397C1C3C05CA00B59D64 /* ThrowLineTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThrowLineTool.h; sourceTree = "<group>"; };
 		84B5397D1C3C05CA00B59D64 /* ThrowLineTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThrowLineTool.m; sourceTree = "<group>"; };
 		84B5397F1C3C13DC00B59D64 /* BadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadgeView.h; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 				84213C441C33E46F00155AEE /* MainTableViewCell.xib */,
 				84B539771C3BCA6F00B59D64 /* ShoppingCartView.h */,
 				84B539781C3BCA6F00B59D64 /* ShoppingCartView.m */,
-				84B5397A1C3BCA8200B59D64 /* ShoppingCartView.xib */,
 				84B5397F1C3C13DC00B59D64 /* BadgeView.h */,
 				84B539801C3C13DC00B59D64 /* BadgeView.m */,
 				84B539821C3C166F00B59D64 /* OverlayView.h */,
@@ -236,7 +233,6 @@
 				84213C2B1C33E1FA00155AEE /* Assets.xcassets in Resources */,
 				84B539891C3C2CEA00B59D64 /* GoodslistCell.xib in Resources */,
 				84213C461C33E46F00155AEE /* MainTableViewCell.xib in Resources */,
-				84B5397B1C3BCA8200B59D64 /* ShoppingCartView.xib in Resources */,
 				84213C291C33E1FA00155AEE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

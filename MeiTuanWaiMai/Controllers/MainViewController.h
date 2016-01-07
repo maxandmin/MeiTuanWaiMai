@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "OrderModel.h"
+#import "ShoppingCartView.h"
+#import "ThrowLineTool.h"
+#import "GoodslistCell.h"
 @interface MainViewController : UIViewController
 
 @property(nonatomic,strong)UITableView *maintable;
@@ -17,7 +20,9 @@
 @property(nonatomic,strong) NSMutableArray *dataArray;
 //订单数据
 @property (nonatomic,strong) NSMutableArray *ordersArray;
-
+//总数量
 @property (nonatomic,assign) NSInteger totalOrders;
+
+@property (nonatomic,strong) ShoppingCartView *shoppcartview;
 
 @end

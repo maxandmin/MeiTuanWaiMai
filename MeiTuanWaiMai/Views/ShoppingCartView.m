@@ -159,19 +159,11 @@
     
     [self.shoppingCartBtn bringSubviewToFront:self.OverlayView];
     [UIView animateWithDuration:0.5 animations:^{
-        CGPoint point = self.shoppingCartBtn.center;
-        CGPoint labelPoint = self.money.center;
-        
-        point.y += (self.OrderList.frame.size.height + 50);
-        labelPoint.x += 60;
         _OverlayView.alpha = 0.0;
-        
-        [self.shoppingCartBtn setCenter:point];
-        [self.money setCenter:labelPoint];
-        
+        self.shoppingCartBtn.frame = CGRectMake(10, -10, 50,50);
+        self.money.frame = CGRectMake(70, 10, self.bounds.size.width, 30);
         
     } completion:^(BOOL finished) {
-        
         self.open = NO;
     }];
 }

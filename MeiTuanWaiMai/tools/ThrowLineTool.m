@@ -25,37 +25,44 @@ static ThrowLineTool *s_sharedInstance = nil;
  *  @param obj    被抛的物体
  *  @param start  起点坐标
  *  @param end    终点坐标
- *  @param height 高度，抛物线最高点比起点/终点y坐标最低(即高度最高)所超出的高度
  */
 - (void)throwObject:(UIView *)obj from:(CGPoint)start to:(CGPoint)end
-             height:(CGFloat)height duration:(CGFloat)duration
 {
     self.showingView = obj;
-    //初始化抛物线path
-    CGMutablePathRef path = CGPathCreateMutable();
-    CGFloat cpx = (start.x + end.x) / 2;
-    CGFloat cpy = -height;
+    UIBezierPath *path= [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(start.x, start.y)];
+    //三点曲线
+    [path addCurveToPoint:CGPointMake(end.x+25, end.y+25)
+             controlPoint1:CGPointMake(start.x, start.y)
+             controlPoint2:CGPointMake(start.x - 180, start.y - 200)];
     
-    CGPathMoveToPoint(path, NULL, start.x, start.y);
-    CGPathAddQuadCurveToPoint(path, NULL, cpx, cpy, end.x+25, end.y+25);
-    
-    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-    animation.path = path;
-    CFRelease(path);
-    
-    
-    CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    scaleAnimation.autoreverses = YES;
-    scaleAnimation.toValue = [NSNumber numberWithFloat:(CGFloat)((arc4random() % 4) + 4) / 10.0];
-    
-    CAAnimationGroup *groupAnimation = [CAAnimationGroup animation];
-    groupAnimation.delegate = self;
-    groupAnimation.repeatCount = 1;
-    groupAnimation.duration = duration;
-    groupAnimation.removedOnCompletion = NO;
-    groupAnimation.animations = @[scaleAnimation, animation];
-    [obj.layer addAnimation:groupAnimation forKey:@"position scale"];
+    [self groupAnimation:path];
 }
+
+
+#pragma mark - 组合动画
+-(void)groupAnimation:(UIBezierPath *)path
+{
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    animation.path = path.CGPath;
+    animation.rotationMode = kCAAnimationRotateAuto;
+    
+    CABasicAnimation *alphaAnimation = [CABasicAnimation animationWithKeyPath:@"alpha"];
+    alphaAnimation.duration = 0.8f;
+    alphaAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+    alphaAnimation.toValue = [NSNumber numberWithFloat:0.1];
+    alphaAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    
+    CAAnimationGroup *groups = [CAAnimationGroup animation];
+    groups.animations = @[animation,alphaAnimation];
+    groups.duration = 0.8f;
+    groups.removedOnCompletion = NO;
+    groups.fillMode = kCAFillModeForwards;
+    groups.delegate = self;
+    [groups setValue:@"groupsAnimation" forKey:@"animationName"];
+    [self.showingView.layer addAnimation:groups forKey:@"position scale"];
+}
+
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {

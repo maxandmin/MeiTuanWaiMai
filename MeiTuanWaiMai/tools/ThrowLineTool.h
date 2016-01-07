@@ -25,10 +25,8 @@
  *  @param obj    被抛的物体
  *  @param start  起点坐标
  *  @param end    终点坐标
- *  @param height 高度，抛物线最高点比起点/终点y坐标最低(即高度最高)所超出的高度
  */
-- (void)throwObject:(UIView *)obj from:(CGPoint)start to:(CGPoint)end
-             height:(CGFloat)height duration:(CGFloat)duration;
+- (void)throwObject:(UIView *)obj from:(CGPoint)start to:(CGPoint)end;
 
 @end
 
