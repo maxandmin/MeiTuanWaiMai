@@ -9,6 +9,8 @@
 
 #import "MainViewController.h"
 #import "MainTableViewCell.h"
+#import "ViewModel.h"
+#import "GoodsListView.h"
 @interface MainViewController ()<UITableViewDataSource,UITableViewDelegate,ThrowLineToolDelegate>
 
 @end
@@ -21,9 +23,19 @@
     [ThrowLineTool sharedTool].delegate = self;
     [self MainTable];
     [self CustomModel];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(UpdatemainUI:) name:@"updateUI" object:nil];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
 
+/**
+ *  抛物线小红点
+ *
+ *  @return
+ */
 - (UIImageView *)redView
 {
     if (!_redView) {
@@ -33,92 +45,28 @@
     }
     return _redView;
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
+/**
+ *  存放用户添加到购物车的商品数组
+ *
+ *  @return
+ */
 -(NSMutableArray *)ordersArray
 {
     if (!_ordersArray) {
-        _ordersArray = [NSMutableArray array];
+        _ordersArray = [NSMutableArray new];
     }
     return _ordersArray;
 }
 #pragma  mark - 初始化数据
+/**
+ *  当前店铺商品数据
+ */
 -(void)CustomModel{
+
+    [ViewModel GetShoppdata:^(NSMutableArray *array){
+        self.dataArray = array;
+    }];
     
-    NSDictionary *dic1 = @{@"id": @9323283,
-                           @"name": @"马可波罗意面",
-                           @"min_price": @12.0,
-                           @"praise_num": @20,
-                           @"picture":@"1.png",
-                           @"month_saled":@12};
-    
-    NSDictionary *dic2 = @{@"id": @9323284,
-                           @"name": @"鲜珍焗面",
-                           @"min_price": @28.0,
-                           @"praise_num": @6,
-                           @"picture":@"2.png",
-                           @"month_saled":@34};
-    
-    NSDictionary *dic3 = @{@"id": @9323285,
-                           @"name": @"经典焗面",
-                           @"min_price": @28.0,
-                           @"praise_num": @8,
-                           @"picture":@"3.png",
-                           @"month_saled":@16};
-    
-    NSDictionary *dic4 = @{@"id": @26844943,
-                           @"name": @"摩洛哥烤肉焗饭",
-                           @"min_price": @32.0,
-                           @"praise_num": @1,
-                           @"picture":@"4.png",
-                           @"month_saled":@56};
-    
-    NSDictionary *dic5 = @{@"id": @9323279,
-                           @"name": @"莎莎鸡肉饭",
-                           @"min_price": @29.0,
-                           @"praise_num": @11,
-                           @"picture":@"5.png",
-                           @"month_saled":@11};
-    
-    NSDictionary *dic6 = @{@"id": @9323289,
-                           @"name": @"曼哈顿海鲜巧达汤",
-                           @"min_price": @22.0,
-                           @"praise_num": @2,
-                           @"picture":@"6.png",
-                           @"month_saled":@5};
-    
-    NSDictionary *dic7 = @{@"id": @9323243,
-                           @"name": @"意式香辣12寸传统",
-                           @"min_price": @72.0,
-                           @"praise_num": @0,
-                           @"picture":@"7.png",
-                           @"month_saled":@19};
-    
-    NSDictionary *dic8 = @{@"id": @9323220,
-                           @"name": @"超级棒约翰9寸卷边",
-                           @"min_price": @64.0,
-                           @"praise_num": @28,
-                           @"picture":@"8.png",
-                           @"month_saled":@7};
-    
-    NSDictionary *dic9 = @{@"id": @9323280,
-                           @"name": @"牛肉培根焗饭",
-                           @"min_price": @30.0,
-                           @"praise_num": @48,
-                           @"picture":@"9.png",
-                           @"month_saled":@0};
-    
-    NSDictionary *dic10 = @{@"id": @9323267,
-                            @"name": @"胡椒薯格",
-                            @"min_price": @16.0,
-                            @"praise_num": @9,
-                            @"picture":@"10.png",
-                            @"month_saled":@136};
-    
-  self.dataArray = [@[[dic1 mutableCopy],[dic2 mutableCopy],[dic3 mutableCopy],[dic4 mutableCopy],[dic5 mutableCopy],[dic6 mutableCopy],[dic7 mutableCopy],[dic8 mutableCopy],[dic9 mutableCopy],[dic10 mutableCopy]] mutableCopy];
 }
 
 #pragma mark - 展示数据的Table
@@ -131,16 +79,13 @@
     [self.view addSubview: self.maintable ];
     [self.maintable registerNib:[UINib nibWithNibName:@"MainTableViewCell" bundle:nil] forCellReuseIdentifier:@"maincell"];
     
-    
     self.shoppcartview  = [[ShoppingCartView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 50, CGRectGetWidth(self.view.bounds), 50) inView:self.view];
     [self.view addSubview:self.shoppcartview];
-    self.shoppcartview.OrderList.tableView.delegate = self;
-    self.shoppcartview.OrderList.tableView.dataSource = self;
-    [self.shoppcartview.OrderList.tableView registerNib:[UINib nibWithNibName:@"GoodslistCell" bundle:nil] forCellReuseIdentifier:@"GoodslistCell"];
+    
+    
 }
 
-#pragma mark - TableViewDelegate
-
+#pragma mark - TableViewDelegate and DataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -148,87 +93,59 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSUInteger count = 0;
-    if ([tableView isEqual:self.maintable]) {
-        count = [self.dataArray count];
-    }
-    else {
-        count = [self.ordersArray count];
-    }
-    return count;
+    return [self.dataArray count];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 
-    if ([tableView isEqual:self.maintable]) {
-        return 60;
-    }else
-    return 50;
+    return 60;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if ([tableView isEqual:self.maintable]) {
-    
         MainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"maincell" forIndexPath:indexPath];
         OrderModel *model = [[OrderModel alloc]initWithDictionary:[self.dataArray objectAtIndex:indexPath.row]];
         [cell setmaintablecell:model];
-        
         __weak __typeof(&*cell)weakCell =cell;
+        __block __typeof(self)bself = self;
         cell.plusBlock = ^(NSInteger nCount,BOOL animated)
         {
+            /**
+             *   给当前选中商品添加一个数量
+             */
             NSMutableDictionary * dic = self.dataArray[indexPath.row];
             [dic setObject:[NSNumber numberWithInteger:nCount] forKey:@"orderCount"];
             
-            //通过坐标转换得到抛物线的起点和终点
+            /**
+             *  通过坐标转换得到抛物线的起点和终点
+             */
             CGRect parentRectA = [weakCell convertRect:weakCell.addBtn.frame toView:self.view];
             CGRect parentRectB = [self.shoppcartview convertRect:self.shoppcartview.shoppingCartBtn.frame toView:self.view];
+            /**
+             *  是否执行添加的动画
+             */
             if (animated) {
-            [self.view addSubview:self.redView];
+            [bself.view addSubview:self.redView];
             [[ThrowLineTool sharedTool] throwObject:self.redView from:parentRectA.origin to:parentRectB.origin];
-                ++self.totalOrders ;
-                [self storeOrders:dic isAdded:YES];
+            bself.ordersArray = [ViewModel storeOrders:dic OrderData:self.ordersArray isAdded:YES];
+            } else{
+                bself.ordersArray = [ViewModel storeOrders:dic OrderData:self.ordersArray isAdded:NO];
             }
-            else
-            {
-                --self.totalOrders;
-                 [self storeOrders:dic isAdded:NO];
-            }
-            self.shoppcartview.badgeValue = self.totalOrders;
-            [self setTotalMoney];
+            
+            bself.shoppcartview.OrderList.objects = self.ordersArray;
+            [bself.shoppcartview updateFrame:self.shoppcartview.OrderList];
+            [bself.shoppcartview.OrderList.tableView reloadData];
+            bself.shoppcartview.badgeValue =  [ViewModel CountOthersWithorderData:self.ordersArray];
+            double price = [ViewModel GetTotalPrice:bself.ordersArray];
+            [bself.shoppcartview setTotalMoney:price];
             
         };
         
         return cell;
-    }else{
-        
-        GoodslistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GoodslistCell" forIndexPath:indexPath];
-        OrderModel *model = [[OrderModel alloc]initWithDictionary:[self.ordersArray objectAtIndex:indexPath.row]];
-        [cell ListModel:model];
-        cell.operationBlock=^(NSInteger number,BOOL flage){
-            
-            NSMutableDictionary * dic = self.ordersArray[indexPath.row];
-            
-            //更新订单列表中的数量
-            [dic setObject:[NSNumber numberWithInteger:number] forKey:@"orderCount"];
-            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:dic];
-            [self storeOrders:dict isAdded:flage];
-            
-            self.totalOrders = flage ? ++self.totalOrders : --self.totalOrders;
-            
-            self.shoppcartview.badgeValue = self.totalOrders;
-            //刷新tableView
-            [self.maintable reloadData];
-            [self setTotalMoney];
-        };
-        
-        return cell;
-        
-    }
-    return nil;
 }
 
+#pragma mark - 设置购物车动画
 - (void)animationDidFinish
 {
     
@@ -243,81 +160,31 @@
         }];
         
     }];
-    
 }
 
-#pragma  mark 计算价格
--(void)setTotalMoney
-{
-    NSInteger nTotal = 0;
-    for (NSDictionary *dic in self.ordersArray) {
-        
-        if ([dic objectForKey:@"orderCount"] !=nil) {
-            
-            nTotal += [[dic objectForKey:@"orderCount"] integerValue] * [[dic objectForKey:@"min_price"] integerValue];
-        }
-    }
-    [self.shoppcartview setTotalMoney:nTotal];
-    
+#pragma mark - 通知更新
+-(void)UpdatemainUI:(NSNotification *)Notification{
+
+    NSMutableDictionary *dic =[NSMutableDictionary dictionaryWithDictionary: Notification.userInfo];
+    //重新计算订单数组。
+    self.ordersArray = [ViewModel storeOrders:dic[@"update"] OrderData:self.ordersArray isAdded:[dic[@"isAdd"] boolValue]];
+    self.shoppcartview.OrderList.objects = self.ordersArray;
+    //设置高度。
+    [self.shoppcartview updateFrame:self.shoppcartview.OrderList];
+    [self.shoppcartview.OrderList.tableView reloadData];
+    //设置数量、价格
+    self.shoppcartview.badgeValue =  [ViewModel CountOthersWithorderData:self.ordersArray];
+    double price = [ViewModel GetTotalPrice:self.ordersArray];
+    [self.shoppcartview setTotalMoney:price];
+    //重新设置数据源
+    self.dataArray = [ViewModel UpdateArray:self.dataArray atSelectDictionary:dic[@"update"]];
+    [self.maintable reloadData];
+
 }
 
-#pragma mark - 计算订单数据
--(void)storeOrders:(NSMutableDictionary *)dictionary isAdded:(BOOL)added{
-
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:dictionary];
-    //增加订单和减少订单
-    if (added) {
-        for (NSMutableDictionary *dic in self.ordersArray) {
-            if (dic[@"id"] == dict[@"id"]){
-                
-                NSInteger count = [self CountOthersWithfoodID:dict[@"id"]];
-                [dic setObject:[NSString stringWithFormat:@"%ld",count] forKey:@"orderCount"];
-                self.shoppcartview.OrderList.objects = self.ordersArray;
-                [self.shoppcartview.OrderList.tableView reloadData];
-                
-                return;
-            }
-        }
-         NSInteger  count = [dictionary[@"orderCount"] integerValue];
-        [dictionary setObject:[NSString stringWithFormat:@"%ld",count] forKey:@"orderCount"];
-        [self.ordersArray addObject:dictionary];
-        
-        self.shoppcartview.OrderList.objects = self.ordersArray;
-        [self.shoppcartview.OrderList.tableView reloadData];
-        [self.shoppcartview updateFrame:self.shoppcartview.OrderList];
-    
-    }else{
-        for (int i=0; i<self.ordersArray.count;i++) {
-            NSMutableDictionary *dic = self.ordersArray[i];
-            if (dic[@"id"] == dict[@"id"]){
-                
-                if ([dic[@"orderCount"] integerValue] == 0){
-                    [self.ordersArray removeObjectAtIndex:i];
-                }else{
-                    NSInteger count = [self CountOthersWithfoodID:dict[@"id"]];
-                    [dic setObject:[NSString stringWithFormat:@"%ld",count] forKey:@"orderCount"];
-                }
-            }
-        }
-        self.shoppcartview.OrderList.objects = self.ordersArray;
-        [self.shoppcartview.OrderList.tableView reloadData];
-        [self.shoppcartview updateFrame:self.shoppcartview.OrderList];
-
-    }
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:@"updateUI"];
 }
 
-//计算个数
--(NSInteger)CountOthersWithfoodID:(NSString *)foodID
-{
-    NSInteger count = 0;
-    for (int i = 0; i< self.ordersArray.count; i++) {
-       NSMutableDictionary *dic = self.ordersArray[i];
-        if ([dic[@"id"] integerValue] == [foodID integerValue]) {
-                count += [dic[@"orderCount"] integerValue];
-        }
-    }
-    
-    return count;
-}
 
 @end

@@ -10,7 +10,7 @@
 #import "OrderModel.h"
 #import "ShoppingCartView.h"
 #import "ThrowLineTool.h"
-#import "GoodslistCell.h"
+
 @interface MainViewController : UIViewController
 
 @property(nonatomic,strong)UITableView *maintable;

@@ -31,11 +31,7 @@ static ThrowLineTool *s_sharedInstance = nil;
     self.showingView = obj;
     UIBezierPath *path= [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(start.x, start.y)];
-    //三点曲线
-    [path addCurveToPoint:CGPointMake(end.x+25, end.y+25)
-             controlPoint1:CGPointMake(start.x, start.y)
-             controlPoint2:CGPointMake(start.x - 180, start.y - 200)];
-    
+    [path addQuadCurveToPoint:CGPointMake(end.x+25,  end.y+25) controlPoint:CGPointMake(start.x - 180, start.y - 200)];
     [self groupAnimation:path];
 }
 
@@ -46,23 +42,28 @@ static ThrowLineTool *s_sharedInstance = nil;
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     animation.path = path.CGPath;
     animation.rotationMode = kCAAnimationRotateAuto;
+    CABasicAnimation *expandAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    expandAnimation.duration = 0.5f;
+    expandAnimation.fromValue = [NSNumber numberWithFloat:1];
+    expandAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+    expandAnimation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
     
-    CABasicAnimation *alphaAnimation = [CABasicAnimation animationWithKeyPath:@"alpha"];
-    alphaAnimation.duration = 0.8f;
-    alphaAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-    alphaAnimation.toValue = [NSNumber numberWithFloat:0.1];
-    alphaAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    CABasicAnimation *narrowAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    narrowAnimation.beginTime = 0.5;
+    narrowAnimation.fromValue = [NSNumber numberWithFloat:1.0f];
+    narrowAnimation.duration = 1.5f;
+    narrowAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+    
+    narrowAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     
     CAAnimationGroup *groups = [CAAnimationGroup animation];
-    groups.animations = @[animation,alphaAnimation];
+    groups.animations = @[animation,expandAnimation,narrowAnimation];
     groups.duration = 0.8f;
-    groups.removedOnCompletion = NO;
-    groups.fillMode = kCAFillModeForwards;
+    groups.removedOnCompletion=NO;
+    groups.fillMode=kCAFillModeForwards;
     groups.delegate = self;
-    [groups setValue:@"groupsAnimation" forKey:@"animationName"];
-    [self.showingView.layer addAnimation:groups forKey:@"position scale"];
+    [self.showingView.layer addAnimation:groups forKey:@"group"];
 }
-
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
@@ -71,6 +72,8 @@ static ThrowLineTool *s_sharedInstance = nil;
     }
     self.showingView = nil;
 }
+
+
 
 
 @end

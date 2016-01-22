@@ -18,4 +18,6 @@
 @property(nonatomic,copy)NSString *month_saled;
 @property(nonatomic,copy)NSString *orderCount;
 -(instancetype)initWithDictionary:(NSDictionary *)dic;
+
+
 @end

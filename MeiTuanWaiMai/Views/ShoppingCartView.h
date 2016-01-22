@@ -14,20 +14,22 @@
 @interface ShoppingCartView : UIView
 
 @property (nonatomic,strong) BadgeView *badge;
-@property (nonatomic,strong) OverlayView *OverlayView;
-@property (nonatomic,strong) GoodsListView *OrderList;
+@property (nonatomic,strong) OverlayView *OverlayView;//遮罩图层
+@property (nonatomic,strong) GoodsListView *OrderList;//选择的订单列表
 @property (strong, nonatomic)  UIButton *shoppingCartBtn;
 
-@property (strong, nonatomic)  UILabel *money;
+@property (strong, nonatomic)  UILabel *money;//价格
 
-@property (strong, nonatomic)  UIButton *payButton;
+@property (strong, nonatomic)  UIButton *payButton;//选好了
 
-@property (nonatomic,assign) NSUInteger minFreeMoney;
-@property (strong, nonatomic)  UILabel *line;
+@property (nonatomic,assign)   NSUInteger minFreeMoney;//最低起送价
 
-@property (nonatomic,strong) UIView *parentView;
+@property (strong, nonatomic)  UILabel *line; //分割线
+
+@property (nonatomic,strong)   UIView *parentView;//背景图层
 
 @property (nonatomic,assign) NSInteger nTotal;//总价
+
 @property (nonatomic,assign) BOOL open;
 
 @property (nonatomic,assign) NSInteger badgeValue;
@@ -35,5 +37,5 @@
 -(instancetype) initWithFrame:(CGRect)frame inView:(UIView *)parentView;
 -(void)dismissAnimated:(BOOL) animated;
 -(void)setTotalMoney:(NSInteger)nTotal;
--(void)updateFrame:(UIView *)view;
+-(void)updateFrame:(GoodsListView *)orderListView;
 @end

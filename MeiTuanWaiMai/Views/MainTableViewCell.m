@@ -67,7 +67,6 @@
     self.number -=1;
     self.plusBlock(self.number,NO);
     [self showOrderNumbers:self.number];
-
 }
 
 - (IBAction)addButton:(id)sender {
@@ -75,7 +74,7 @@
     self.number +=1;
     self.plusBlock(self.number,YES);
     [self showOrderNumbers:self.number];
-
+    
 }
 
 -(void)showOrderNumbers:(NSUInteger)count

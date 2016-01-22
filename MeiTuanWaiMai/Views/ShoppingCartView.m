@@ -31,7 +31,7 @@
     [self addSubview:self.line];
     
     //购物金额提示框
-    self.money = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, self.bounds.size.width, 30)];
+    self.money = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, self.bounds.size.width-140, 30)];
     [self.money setTextColor:[UIColor grayColor]];
     [self.money setText:@"购物车空空如也~"];
     [self.money setFont:[UIFont systemFontOfSize:13.0]];
@@ -45,7 +45,7 @@
     self.payButton.layer.cornerRadius = 5;
     self.payButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     self.payButton.backgroundColor = [UIColor lightGrayColor];
-    [self.payButton setTitle:[NSString stringWithFormat:@"还差￥%ld",self.minFreeMoney] forState:UIControlStateNormal];
+    [self.payButton setTitle:[NSString stringWithFormat:@"还差￥%ld",(unsigned long)self.minFreeMoney] forState:UIControlStateNormal];
     self.payButton.enabled = NO;
     [self addSubview:self.payButton];
     
@@ -58,7 +58,7 @@
     [self.shoppingCartBtn addTarget:self action:@selector(shoppCartClick:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.shoppingCartBtn];
     
-    
+    //小圆点
     self.badge = [[BadgeView alloc] initWithFrame:CGRectMake(self.shoppingCartBtn.frame.size.width - 18, 5, 18, 18) withString:nil];
     [self.shoppingCartBtn addSubview:self.badge];
      self.badge.hidden = YES;
@@ -74,6 +74,7 @@
     self.open = NO;
 }
 
+
 -(void)setBadgeValue:(NSInteger)badgeValue{
 
     _badgeValue = badgeValue;
@@ -86,6 +87,7 @@
     }
    
 }
+
 
 #pragma mark 结算
 - (void)payclick:(id)sender {
@@ -119,10 +121,10 @@
 
 }
 
--(void)updateFrame:(UIView *)view
+
+#pragma  mark 更新ListView 的高度
+-(void)updateFrame:(GoodsListView *)orderListView
 {
-    
-    GoodsListView *orderListView = (GoodsListView *)view;
     if(orderListView.objects.count ==0){
         [self dismissAnimated:YES];
         return;
@@ -133,13 +135,13 @@
     if (height >= maxHeight) {
         height = maxHeight;
     }
+
     float orignY = self.OrderList.frame.origin.y;
     
     self.OrderList.frame = CGRectMake(self.OrderList.frame.origin.x, self.parentView.bounds.size.height - height - 50, self.OrderList.frame.size.width, height);
     float currentY = self.OrderList.frame.origin.y;
-    
+
     if (self.open) {
-        
         [UIView animateWithDuration:0.5 animations:^{
             CGPoint point = self.shoppingCartBtn.center;
             point.y -= orignY - currentY;
@@ -168,6 +170,8 @@
     }];
 }
 
+
+#pragma  mark - 计算价格
 -(void)setTotalMoney:(NSInteger)nTotal
 {
     self.nTotal = nTotal;
@@ -203,14 +207,13 @@
         [self.money setFont:[UIFont systemFontOfSize:13.0]];
         
         self.payButton.enabled = NO;
-        [self.payButton setTitle:[NSString stringWithFormat:@"还差￥%ld",self.minFreeMoney] forState:UIControlStateNormal];
+        [self.payButton setTitle:[NSString stringWithFormat:@"还差￥%ld",(unsigned long)self.minFreeMoney] forState:UIControlStateNormal];
         [self.payButton setBackgroundColor:[UIColor grayColor]];
         
         [self.shoppingCartBtn setUserInteractionEnabled:NO];
     }
     
 }
-
 
 
 @end
